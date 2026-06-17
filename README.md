@@ -1,0 +1,37 @@
+# Nahpki
+
+Unofficial [NHK World](https://www3.nhk.or.jp/nhkworld/) API.
+
+`nahpki` wraps NHK World's web API and parses its raw JSON into typed
+[Pydantic](https://docs.pydantic.dev/) models, giving you a small, structured API for
+reading data about NHK World video episodes.
+
+## Installation
+
+```bash
+uv add git+https://github.com/ryn-cx/nahpki
+```
+
+## Usage
+
+Create a client, then call `get(...)` on an endpoint to download from NHK World and
+get back a parsed, typed model.
+
+```python
+from nahpki import Nahpki
+
+client = Nahpki()
+
+# A page of video episodes.
+episodes = client.video_episodes.get(limit=20, offset=0)
+
+# Every episode of a single show, by its program ID.
+# "dwc" is from https://www3.nhk.or.jp/nhkworld/en/shows/dwc/
+program_episodes = client.program_episodes.get("dwc")
+
+# A single show (video program), by its program ID.
+program = client.video_program.get("japanologyplus")
+
+# Search for shows (video programs) by a search term.
+results = client.shows_search.get("japan")
+```

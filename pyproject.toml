@@ -1,0 +1,37 @@
+[project]
+name = "nahpki"
+version = "0.1.0"
+description = "Unofficial NHK World API."
+readme = "README.md"
+authors = [
+    { name = "ryn-cx", email = "262888154+ryn-cx@users.noreply.github.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "get-around",
+    "good-ass-pydantic-integrator",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.ruff.lint]
+select = ["ALL"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101"] # Asserts should be allowed in tests.
+
+[tool.uv.sources]
+get-around = { git = "https://github.com/ryn-cx/get-around" }
+good-ass-pydantic-integrator = { git = "https://github.com/ryn-cx/good-ass-pydantic-integrator" }
+
+[dependency-groups]
+dev = [
+    "prek>=0.3.3",
+    "pytest>=9.0.2",
+    "ruff>=0.15.2",
+]
