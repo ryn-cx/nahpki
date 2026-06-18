@@ -1,0 +1,44 @@
+"""Video episode API endpoint."""
+
+from __future__ import annotations
+
+from typing import Any
+
+from nahpki.base_api_endpoint import BaseEndpoint
+from nahpki.video_episode.models import VideoEpisodeModel
+
+
+class VideoEpisode(BaseEndpoint[VideoEpisodeModel]):
+    """Provides methods to download, parse, and retrieve a single video episode."""
+
+    _response_model = VideoEpisodeModel
+
+    def download(self, episode_id: int, language: str = "") -> dict[str, Any]:
+        """Downloads a single video episode.
+
+        Args:
+            episode_id: The episode ID, e.g. ``5001461``.
+            language: The language code to use for the request.
+
+        Returns:
+            The raw JSON response as a dict, suitable for passing to ``parse()``.
+        """
+        language = language or self._client.language
+        endpoint = f"showsapi/v1/{language}/video_episodes/{episode_id}"
+        params: dict[str, str | int | bool] = {"schedule": True}
+        return self._client.download(endpoint, params)
+
+    def get(self, episode_id: int, language: str = "") -> VideoEpisodeModel:
+        """Downloads and parses a single video episode.
+
+        Convenience method that calls ``download()`` then ``parse()``.
+
+        Args:
+            episode_id: The episode ID, e.g. ``5001461``.
+            language: The language code to use for the request.
+
+        Returns:
+            A VideoEpisodeModel containing the parsed data.
+        """
+        response = self.download(episode_id, language)
+        return self.parse(response)

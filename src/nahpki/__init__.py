@@ -8,6 +8,7 @@ from get_around import GetAround
 
 from nahpki.exceptions import HTTPError
 from nahpki.shows_search import ShowsSearch
+from nahpki.video_episode import VideoEpisode
 from nahpki.video_episodes import VideoEpisodes
 from nahpki.video_programs import VideoPrograms
 
@@ -38,6 +39,7 @@ class Nahpki:
         )
 
         self.video_episodes = VideoEpisodes(self)
+        self.video_episode = VideoEpisode(self)
         self.video_programs = VideoPrograms(self)
         self.shows_search = ShowsSearch(self)
 

@@ -18,6 +18,12 @@ class TestParse:
             file_content = json.loads(json_file.read_text())
             client.video_episodes.parse(file_content)
 
+    def test_parse_video_episode(self) -> None:
+        """Test parsing video episode files."""
+        for json_file in client.video_episode.json_files():
+            file_content = json.loads(json_file.read_text())
+            client.video_episode.parse(file_content)
+
     def test_parse_video_programs(self) -> None:
         """Test parsing video programs files."""
         for json_file in client.video_programs.json_files():
@@ -41,6 +47,10 @@ class TestGet:
     def test_get_video_episodes_for_program(self) -> None:
         """Test getting a single show's video episodes."""
         client.video_episodes.get("dwc")
+
+    def test_get_video_episode(self) -> None:
+        """Test getting a single video episode."""
+        client.video_episode.get(5001461)
 
     def test_get_video_programs(self) -> None:
         """Test getting a single video program."""
