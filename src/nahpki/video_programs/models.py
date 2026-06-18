@@ -91,7 +91,7 @@ class Nahpki(BaseModel):
     params: dict[str, Any]
 
 
-class VideoProgramModel(BaseModel):
+class VideoProgramsModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
     type: str
     id: str

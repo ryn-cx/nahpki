@@ -22,16 +22,17 @@ from nahpki import Nahpki
 
 client = Nahpki()
 
-# A page of video episodes.
+# A page of video episodes (across every show).
 episodes = client.video_episodes.get(limit=20, offset=0)
 
-# Every episode of a single show, by its program ID.
+# A page of video episodes for a single show, by its program ID.
 # "dwc" is from https://www3.nhk.or.jp/nhkworld/en/shows/dwc/
-program_episodes = client.program_episodes.get("dwc")
+show_episodes = client.video_episodes.get("dwc")
 
 # A single show (video program), by its program ID.
-program = client.video_program.get("japanologyplus")
+program = client.video_programs.get("japanologyplus")
 
 # Search for shows (video programs) by a search term.
 results = client.shows_search.get("japan")
+
 ```

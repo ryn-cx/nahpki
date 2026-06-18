@@ -7,10 +7,9 @@ from typing import Any
 from get_around import GetAround
 
 from nahpki.exceptions import HTTPError
-from nahpki.program_episodes import ProgramEpisodes
 from nahpki.shows_search import ShowsSearch
 from nahpki.video_episodes import VideoEpisodes
-from nahpki.video_program import VideoProgram
+from nahpki.video_programs import VideoPrograms
 
 logger = getLogger(__name__)
 logger.addHandler(NullHandler())
@@ -39,8 +38,7 @@ class Nahpki:
         )
 
         self.video_episodes = VideoEpisodes(self)
-        self.program_episodes = ProgramEpisodes(self)
-        self.video_program = VideoProgram(self)
+        self.video_programs = VideoPrograms(self)
         self.shows_search = ShowsSearch(self)
 
         super().__init__()

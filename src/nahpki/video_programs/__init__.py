@@ -1,17 +1,17 @@
-"""Video program API endpoint."""
+"""Video programs API endpoint."""
 
 from __future__ import annotations
 
 from typing import Any
 
 from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.video_program.models import VideoProgramModel
+from nahpki.video_programs.models import VideoProgramsModel
 
 
-class VideoProgram(BaseEndpoint[VideoProgramModel]):
+class VideoPrograms(BaseEndpoint[VideoProgramsModel]):
     """Provides methods to download, parse, and retrieve a single video program."""
 
-    _response_model = VideoProgramModel
+    _response_model = VideoProgramsModel
 
     def download(self, program_id: str, language: str = "") -> dict[str, Any]:
         """Downloads a single video program (show).
@@ -28,7 +28,7 @@ class VideoProgram(BaseEndpoint[VideoProgramModel]):
         endpoint = f"showsapi/v1/{language}/video_programs/{program_id}"
         return self._client.download(endpoint, {})
 
-    def get(self, program_id: str, language: str = "") -> VideoProgramModel:
+    def get(self, program_id: str, language: str = "") -> VideoProgramsModel:
         """Downloads and parses a single video program (show).
 
         Convenience method that calls ``download()`` then ``parse()``.
@@ -39,7 +39,7 @@ class VideoProgram(BaseEndpoint[VideoProgramModel]):
             language: The language code to use for the request.
 
         Returns:
-            A VideoProgramModel containing the parsed data.
+            A VideoProgramsModel containing the parsed data.
         """
         response = self.download(program_id, language)
         return self.parse(response)

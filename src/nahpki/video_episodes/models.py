@@ -10,7 +10,7 @@ class Pagination(BaseModel):
     offset: int
     count: int
     total: int
-    next: str
+    next: str | None
     previous: str | None
 
 

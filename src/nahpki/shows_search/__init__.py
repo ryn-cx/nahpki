@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from nahpki.base_api_endpoint import BaseEndpoint
+from nahpki.constants import MAX_PAGE_SIZE
 from nahpki.shows_search.models import ShowsSearchModel
 
 
@@ -13,11 +14,13 @@ class ShowsSearch(BaseEndpoint[ShowsSearchModel]):
 
     _response_model = ShowsSearchModel
 
-    def download(self, query: str) -> dict[str, Any]:
+    def download(self, query: str, *, from_: int = 0, size: int = 40) -> dict[str, Any]:
         """Searches for shows (video programs) matching a search term.
 
         Args:
             query: The search term, e.g. ``"japan"``.
+            from_: The number of results to skip (for pagination).
+            size: The number of results to return.
 
         Returns:
             The raw JSON response as a dict, suitable for passing to ``parse()``.
@@ -47,8 +50,8 @@ class ShowsSearch(BaseEndpoint[ShowsSearchModel]):
                     ],
                 },
             },
-            "from": 0,
-            "size": 40,
+            "from": from_,
+            "size": size,
             "_source": ["title", "description", "slug", "url", "thumbnail"],
         }
         return self._client.download(endpoint, {}, json_body=body)
@@ -66,3 +69,25 @@ class ShowsSearch(BaseEndpoint[ShowsSearchModel]):
         """
         response = self.download(query)
         return self.parse(response)
+
+    def get_all(self, query: str) -> list[ShowsSearchModel]:
+        """Searches for shows and parses every page of results.
+
+        Repeatedly searches, advancing through the result set until every match
+        has been retrieved.
+
+        Args:
+            query: The search term, e.g. ``"japan"``.
+
+        Returns:
+            A list of ShowsSearchModel, one per page.
+        """
+        pages: list[ShowsSearchModel] = []
+        from_ = 0
+        while True:
+            page = self.parse(self.download(query, from_=from_, size=MAX_PAGE_SIZE))
+            pages.append(page)
+            from_ += len(page.hits.hits)
+            if from_ >= page.hits.total.value or not page.hits.hits:
+                break
+        return pages

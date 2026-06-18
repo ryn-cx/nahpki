@@ -16,17 +16,11 @@ class TestParse:
             file_content = json.loads(json_file.read_text())
             client.video_episodes.parse(file_content)
 
-    def test_parse_program_episodes(self) -> None:
-        """Test parsing program episodes files."""
-        for json_file in client.program_episodes.json_files():
+    def test_parse_video_programs(self) -> None:
+        """Test parsing video programs files."""
+        for json_file in client.video_programs.json_files():
             file_content = json.loads(json_file.read_text())
-            client.program_episodes.parse(file_content)
-
-    def test_parse_video_program(self) -> None:
-        """Test parsing video program files."""
-        for json_file in client.video_program.json_files():
-            file_content = json.loads(json_file.read_text())
-            client.video_program.parse(file_content)
+            client.video_programs.parse(file_content)
 
     def test_parse_shows_search(self) -> None:
         """Test parsing shows search files."""
@@ -42,14 +36,32 @@ class TestGet:
         """Test getting video episodes."""
         client.video_episodes.get(limit=20, offset=0)
 
-    def test_get_program_episodes(self) -> None:
-        """Test getting a program's episodes."""
-        client.program_episodes.get("dwc")
+    def test_get_video_episodes_for_program(self) -> None:
+        """Test getting a single show's video episodes."""
+        client.video_episodes.get("dwc")
 
-    def test_get_video_program(self) -> None:
+    def test_get_video_programs(self) -> None:
         """Test getting a single video program."""
-        client.video_program.get("japanologyplus")
+        client.video_programs.get("japanologyplus")
 
     def test_get_shows_search(self) -> None:
         """Test searching for shows."""
         client.shows_search.get("japan")
+
+
+class TestGetAll:
+    """Tests getting all pages of paginated endpoints."""
+
+    def test_get_all_video_episodes_for_program(self) -> None:
+        """Test getting every page of a single show's video episodes."""
+        pages = client.video_episodes.get_all("dwc")
+        assert pages
+        items = sum(len(page.items) for page in pages)
+        assert items == pages[0].pagination.total
+
+    def test_get_all_shows_search(self) -> None:
+        """Test getting every page of a shows search."""
+        pages = client.shows_search.get_all("japan")
+        assert len(pages) > 1
+        hits = sum(len(page.hits.hits) for page in pages)
+        assert hits == pages[0].hits.total.value
