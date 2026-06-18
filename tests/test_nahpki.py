@@ -1,8 +1,10 @@
 """Tests for nahpki."""
 
 import json
+from datetime import UTC, datetime, timedelta
 
 from nahpki import Nahpki
+from nahpki.constants import MAX_PAGE_SIZE
 
 client = Nahpki()
 
@@ -65,3 +67,16 @@ class TestGetAll:
         assert len(pages) > 1
         hits = sum(len(page.hits.hits) for page in pages)
         assert hits == pages[0].hits.total.value
+
+    def test_get_all_to_datetime(self) -> None:
+        """Test get_all stops at an inclusive published_at cutoff."""
+        cutoff = datetime.now(tz=UTC) - timedelta(days=5)
+        pages = client.video_episodes.get_all(to_datetime=cutoff)
+        assert pages
+        items = [item for page in pages for item in page.items]
+        # Scraped back to at least the cutoff.
+        assert min(item.video.published_at for item in items) <= cutoff
+        # Stopped early instead of fetching every page.
+        total = pages[0].pagination.total
+        full_pages = (total + MAX_PAGE_SIZE - 1) // MAX_PAGE_SIZE
+        assert len(pages) < full_pages

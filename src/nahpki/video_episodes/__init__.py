@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from nahpki.base_api_endpoint import BaseEndpoint
 from nahpki.constants import MAX_PAGE_SIZE
 from nahpki.video_episodes.models import VideoEpisodesModel
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 
 class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
@@ -83,6 +86,7 @@ class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
         self,
         program_id: str | None = None,
         *,
+        to_datetime: datetime | None = None,
         language: str = "",
     ) -> list[VideoEpisodesModel]:
         """Downloads and parses every page of video episodes.
@@ -90,9 +94,16 @@ class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
         Repeatedly calls ``get()`` with the maximum page size, advancing through
         the pagination until all episodes have been retrieved.
 
+        Episodes are returned newest first (by ``video.published_at``). When
+        ``to_datetime`` is given, scraping stops once an episode published at or
+        before it is reached, so only episodes published on or after
+        ``to_datetime`` are guaranteed to be collected.
+
         Args:
             program_id: A program (show) ID to limit results to a single show, e.g.
                 ``"dwc"``. When omitted, every video episode is returned.
+            to_datetime: The inclusive, timezone-aware datetime to scrape back to,
+                compared against each episode's ``video.published_at``.
             language: The language code to use for the request.
 
         Returns:
@@ -109,6 +120,14 @@ class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
             )
             pages.append(page)
             offset += page.pagination.count
-            if page.pagination.next is None or page.pagination.count == 0:
+
+            reached_datetime = to_datetime is not None and any(
+                item.video.published_at <= to_datetime for item in page.items
+            )
+            if (
+                page.pagination.next is None
+                or page.pagination.count == 0
+                or reached_datetime
+            ):
                 break
         return pages
