@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.constants import MAX_PAGE_SIZE
 from nahpki.video_episodes.models import VideoEpisodesModel
 
 if TYPE_CHECKING:
@@ -91,8 +90,8 @@ class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
     ) -> list[VideoEpisodesModel]:
         """Downloads and parses every page of video episodes.
 
-        Repeatedly calls ``get()`` with the maximum page size, advancing through
-        the pagination until all episodes have been retrieved.
+        Repeatedly calls ``get()``, advancing through the pagination until all
+        episodes have been retrieved.
 
         Episodes are returned newest first (by ``video.published_at``). When
         ``to_datetime`` is given, scraping stops once an episode published at or
@@ -114,7 +113,6 @@ class VideoEpisodes(BaseEndpoint[VideoEpisodesModel]):
         while True:
             page = self.get(
                 program_id,
-                limit=MAX_PAGE_SIZE,
                 offset=offset,
                 language=language,
             )

@@ -1,7 +1,6 @@
 """Nahpki is a client for downloading and parsing data from NHK World."""
 
 from datetime import datetime
-from logging import NullHandler, getLogger
 from typing import Any
 
 from get_around import GetAround
@@ -12,8 +11,6 @@ from nahpki.video_episode import VideoEpisode
 from nahpki.video_episodes import VideoEpisodes
 from nahpki.video_programs import VideoPrograms
 
-logger = getLogger(__name__)
-logger.addHandler(NullHandler())
 
 
 class Nahpki:
@@ -60,14 +57,12 @@ class Nahpki:
         url = f"{base_url or self.BASE_API_URL}/{endpoint}"
 
         if json_body is not None:
-            logger.info("Downloading API data (POST): %s body=%s", url, json_body)
             response = self.get_around_client.post(
                 url=url,
                 json=json_body,
                 timeout=self.timeout,
             )
         else:
-            logger.info("Downloading API data: %s params=%s", url, params)
             response = self.get_around_client.get(
                 url=url,
                 params=params,

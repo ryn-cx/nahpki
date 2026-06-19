@@ -5,7 +5,6 @@ from __future__ import annotations
 from typing import Any
 
 from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.constants import MAX_PAGE_SIZE
 from nahpki.shows_search.models import ShowsSearchModel
 
 
@@ -85,7 +84,7 @@ class ShowsSearch(BaseEndpoint[ShowsSearchModel]):
         pages: list[ShowsSearchModel] = []
         from_ = 0
         while True:
-            page = self.parse(self.download(query, from_=from_, size=MAX_PAGE_SIZE))
+            page = self.parse(self.download(query, from_=from_))
             pages.append(page)
             from_ += len(page.hits.hits)
             if from_ >= page.hits.total.value or not page.hits.hits:

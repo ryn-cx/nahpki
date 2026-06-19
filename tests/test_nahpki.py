@@ -1,10 +1,9 @@
-"""Tests for nahpki."""
+"""Tests."""
 
 import json
 from datetime import UTC, datetime, timedelta
 
 from nahpki import Nahpki
-from nahpki.constants import MAX_PAGE_SIZE
 
 client = Nahpki()
 
@@ -42,7 +41,7 @@ class TestGet:
 
     def test_get_video_episodes(self) -> None:
         """Test getting video episodes."""
-        client.video_episodes.get(limit=20, offset=0)
+        client.video_episodes.get()
 
     def test_get_video_episodes_for_program(self) -> None:
         """Test getting a single show's video episodes."""
@@ -88,5 +87,6 @@ class TestGetAll:
         assert min(item.video.published_at for item in items) <= cutoff
         # Stopped early instead of fetching every page.
         total = pages[0].pagination.total
-        full_pages = (total + MAX_PAGE_SIZE - 1) // MAX_PAGE_SIZE
+        page_size = pages[0].pagination.limit
+        full_pages = (total + page_size - 1) // page_size
         assert len(pages) < full_pages
