@@ -77,7 +77,7 @@ class Nahpki:
         output = response.json()
         output["nahpki"] = {}
         output["nahpki"]["url"] = url
-        output["nahpki"]["timestamp"] = datetime.now().astimezone().isoformat()
+        output["nahpki"]["timestamp"] = datetime.now().astimezone().isoformat().replace("+00:00", "Z")
         output["nahpki"]["params"] = params
         if json_body is not None:
             output["nahpki"]["body"] = json_body
