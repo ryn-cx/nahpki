@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.video_programs.models import VideoProgramsModel
+from naphki.base_api_endpoint import BaseEndpoint
+from naphki.video_programs.models import VideoProgramsModel
 
 
 class VideoPrograms(BaseEndpoint[VideoProgramsModel]):

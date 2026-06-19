@@ -7,12 +7,12 @@ from typing import TYPE_CHECKING, override
 from good_ass_pydantic_integrator import GAPIClient
 from pydantic import BaseModel
 
-from nahpki.constants import FILES_PATH
+from naphki.constants import FILES_PATH
 
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from nahpki import Nahpki
+    from naphki import Naphki
 
 
 class BaseExtractor[T: BaseModel](GAPIClient[T]):
@@ -28,6 +28,6 @@ class BaseExtractor[T: BaseModel](GAPIClient[T]):
 class BaseEndpoint[T: BaseModel](BaseExtractor[T]):
     """Base class for API endpoints."""
 
-    def __init__(self, client: Nahpki) -> None:
-        """Initialize the endpoint with the Nahpki client."""
+    def __init__(self, client: Naphki) -> None:
+        """Initialize the endpoint with the Naphki client."""
         self._client = client

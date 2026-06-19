@@ -84,7 +84,7 @@ class Casts(BaseModel):
     uri: str
 
 
-class Nahpki(BaseModel):
+class Naphki(BaseModel):
     model_config = ConfigDict(extra="forbid")
     url: str
     timestamp: AwareDatetime
@@ -117,4 +117,4 @@ class VideoProgramsModel(BaseModel):
     video_episodes: VideoEpisodes
     video_clips: VideoClips
     casts: Casts
-    nahpki: Nahpki
+    naphki: Naphki

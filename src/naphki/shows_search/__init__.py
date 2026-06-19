@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.shows_search.models import ShowsSearchModel
+from naphki.base_api_endpoint import BaseEndpoint
+from naphki.shows_search.models import ShowsSearchModel
 
 
 class ShowsSearch(BaseEndpoint[ShowsSearchModel]):

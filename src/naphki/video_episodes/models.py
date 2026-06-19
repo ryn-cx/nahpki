@@ -89,10 +89,10 @@ class Params(BaseModel):
     offset: int
 
 
-class Nahpki(BaseModel):
+class Naphki(BaseModel):
     model_config = ConfigDict(extra="forbid")
     url: str
-    timestamp: AwareDatetime
+    timestamp: str | AwareDatetime
     params: Params
 
 
@@ -100,4 +100,4 @@ class VideoEpisodesModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
     pagination: Pagination
     items: list[Item]
-    nahpki: Nahpki
+    naphki: Naphki

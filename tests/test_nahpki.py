@@ -3,9 +3,9 @@
 import json
 from datetime import UTC, datetime, timedelta
 
-from nahpki import Nahpki
+from naphki import Naphki
 
-client = Nahpki()
+client = Naphki()
 
 
 class TestParse:

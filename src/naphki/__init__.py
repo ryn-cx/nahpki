@@ -1,19 +1,19 @@
-"""Nahpki is a client for downloading and parsing data from NHK World."""
+"""Naphki is a client for downloading and parsing data from NHK World."""
 
 from datetime import datetime
 from typing import Any
 
 from get_around import GetAround
 
-from nahpki.exceptions import HTTPError
-from nahpki.shows_search import ShowsSearch
-from nahpki.video_episode import VideoEpisode
-from nahpki.video_episodes import VideoEpisodes
-from nahpki.video_programs import VideoPrograms
+from naphki.exceptions import HTTPError
+from naphki.shows_search import ShowsSearch
+from naphki.video_episode import VideoEpisode
+from naphki.video_episodes import VideoEpisodes
+from naphki.video_programs import VideoPrograms
 
 
 
-class Nahpki:
+class Naphki:
     """Interface for downloading and parsing data from NHK World."""
 
     API_DOMAIN = "api.nhkworld.jp"
@@ -26,7 +26,7 @@ class Nahpki:
         get_around_server: str | None = None,
         get_around_password: str | None = None,
     ) -> None:
-        """Initialize the Nahpki client."""
+        """Initialize the Naphki client."""
         self.language = language
         self.timeout = timeout
 
@@ -75,11 +75,11 @@ class Nahpki:
             raise HTTPError(msg)
 
         output = response.json()
-        output["nahpki"] = {}
-        output["nahpki"]["url"] = url
-        output["nahpki"]["timestamp"] = datetime.now().astimezone().isoformat().replace("+00:00", "Z")
-        output["nahpki"]["params"] = params
+        output["naphki"] = {}
+        output["naphki"]["url"] = url
+        output["naphki"]["timestamp"] = datetime.now().astimezone().isoformat().replace("+00:00", "Z")
+        output["naphki"]["params"] = params
         if json_body is not None:
-            output["nahpki"]["body"] = json_body
+            output["naphki"]["body"] = json_body
 
         return output

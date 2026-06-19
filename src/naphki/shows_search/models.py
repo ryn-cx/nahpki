@@ -75,7 +75,7 @@ class Body(BaseModel):
     field_source: list[str] = Field(..., alias="_source")
 
 
-class Nahpki(BaseModel):
+class Naphki(BaseModel):
     model_config = ConfigDict(extra="forbid")
     url: str
     timestamp: AwareDatetime
@@ -89,4 +89,4 @@ class ShowsSearchModel(BaseModel):
     timed_out: bool
     field_shards: FieldShards = Field(..., alias="_shards")
     hits: Hits
-    nahpki: Nahpki
+    naphki: Naphki

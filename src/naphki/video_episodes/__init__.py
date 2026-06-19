@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from nahpki.base_api_endpoint import BaseEndpoint
-from nahpki.video_episodes.models import VideoEpisodesModel
+from naphki.base_api_endpoint import BaseEndpoint
+from naphki.video_episodes.models import VideoEpisodesModel
 
 if TYPE_CHECKING:
     from datetime import datetime

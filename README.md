@@ -1,15 +1,15 @@
-# Nahpki
+# Naphki
 
 Unofficial [NHK World](https://www3.nhk.or.jp/nhkworld/) API.
 
-`nahpki` wraps NHK World's web API and parses its raw JSON into typed
+`naphki` wraps NHK World's web API and parses its raw JSON into typed
 [Pydantic](https://docs.pydantic.dev/) models, giving you a small, structured API for
 reading data about NHK World video episodes.
 
 ## Installation
 
 ```bash
-uv add git+https://github.com/ryn-cx/nahpki
+uv add git+https://github.com/ryn-cx/naphki
 ```
 
 ## Usage
@@ -18,9 +18,9 @@ Create a client, then call `get(...)` on an endpoint to download from NHK World 
 get back a parsed, typed model.
 
 ```python
-from nahpki import Nahpki
+from naphki import Naphki
 
-client = Nahpki()
+client = Naphki()
 
 # A page of video episodes (across every show).
 episodes = client.video_episodes.get(limit=20, offset=0)

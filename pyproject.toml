@@ -1,5 +1,5 @@
 [project]
-name = "nahpki"
+name = "naphki"
 version = "0.1.0"
 description = "Unofficial NHK World API."
 readme = "README.md"
